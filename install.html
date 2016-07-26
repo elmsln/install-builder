@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+      <!--Import Google Icon Font-->
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!--Import materialize.css-->
+      <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css"  media="screen,projection"/>
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+      <script   src="https://code.jquery.com/jquery-1.12.4.min.js"   integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="   crossorigin="anonymous"></script>
+      <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
+      <style type="text/css">
+        #command {
+          border: 2px solid black;
+          margin: 1rem;
+          padding: 1rem;
+        }
+        #command span {
+          color: #880000;
+        }
+      </style>
+    </head>
+
+    <body>
+     <div class="container">
+      <form class="col s10" id="form">
+        <input name="os_command_centos7" type="hidden" value="yes | yum -y install wget git && " />
+        <input name="os_command_ubuntu14" type="hidden" value="apt-get update && apt-get -y install wget git && " />
+        <input name="os_command_amazon" type="hidden" value="yes | yum -y install wget git && "/>
+        <input name="os_command_centos" type="hidden" value="yes | yum -y install wget git && <br/>
+        wget http://rpms.famillecollet.com/enterprise/remi-release-6.rpm<br/>
+        rpm -Uvh remi-release-6*.rpm<br/>
+        wget http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm<br/>
+        rpm -Uvh epel-release-6*.rpm<br/>" />
+        <input name="os_command_ubuntu12" type="hidden" value="apt-get update && apt-get -y install wget git && "/>
+        <div class="row">
+          <div class="input-field col l6 s12">
+            <input id="org" type="text" class="validate" name="org" placeholder="elmsln" class="validate" required="TRUE" />
+            <label for="org">Organization</label>
+          </div>
+
+          <div class="input-field col l6 s12">
+            <input id="short" type="text" class="validate" name="short" placeholder="ln" maxlength="2" length="2" class="validate" required="TRUE" />
+            <label for="short">Short label</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col l6 s12">
+            <input id="address" type="url" name="address" placeholder="elmsln.dev" class="validate" required="TRUE" />
+            <label for="address">Address</label>
+          </div>
+
+          <div class="input-field col s6">
+            <input id="email" type="email" name="email" placeholder="admin@elmsln.dev" class="validate" required="TRUE" />
+            <label for="email">Email address</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col l6 s12">
+            <select id="os" name="os" required="TRUE">
+              <option value="centos7" selected="selected">CentOS 7.x / RHEL 7.x</option>
+              <option value="ubuntu14">Ubuntu 14.x / Debian 8.x</option>
+              <option value="amazon">AWS EC2 AMI</option>
+              <option value="centos">CentOS 6.x / RHEL 6.x</option>
+              <option value="ubuntu12">Ubuntu 12.x / Debian 7.x</option>
+            </select>
+            <label for="os">Operating system</label>
+          </div>
+
+          <div class="input-field col l6 s12">
+            <select id="secure" name="secure">
+              <option value="http" selected="selected">http</option>
+              <option value="https">https</option>
+            </select>
+            <label for="secure">Secure?</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col l6 s12">
+            <select id="analytics" name="analytics">
+              <option value="yes" selected="selected">yes</option>
+              <option value="no">no</option>
+            </select>
+            <label for="analytics">Share annonymous analytics back with elmsln.org?</label>
+          </div>
+        </div>
+        <div class="row">
+          <h2>Your command to copy and paste</h2>
+            <div id="command"><span class="os_command"></span>git clone https://github.com/elmsln/elmsln.git /var/www/elmsln && bash /var/www/elmsln/scripts/install/handsfree/<span class="os">centos</span>/<span class="os">centos</span>-install.sh <span class="org">elmsln</span> <span class="short">ln</span> <span class="address">elmsln.dev</span> <span class="secure">http</span> <span class="email">email@elmsln.dev</span> <span class="analytics">yes</span>
+            <div>cd $HOME && source .bashrc</div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <script>
+    (function ($) {
+      $(document).ready(function(){
+        $('select').material_select();
+        $('#form').change(function(){
+          $('.os_command').html($('input[name="os_command_' + $('select[name="os"]').val() +'"]').val());
+          $('.os').html($('select[name="os"]').val());
+          $('.org').html($('input[name="org"]').val());
+          $('.short').html($('input[name="short"]').val());
+          $('.address').html($('input[name="address"]').val());
+          $('.secure').html($('input[name="secure"]').val());
+          $('.email').html($('input[name="email"]').val());
+          $('.analytics').html($('input[name="analytics"]').val());
+        });
+        // trigger form to populate values
+        $('#form').change();
+      });
+    })(jQuery);
+    </script>
+    </body>
+  </html>
